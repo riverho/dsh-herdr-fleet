@@ -1,0 +1,53 @@
+{
+  "name": "dsh-herdr-fleet",
+  "version": "0.1.0",
+  "description": "DeepSeek Harness plugin: meter Herdr agent fleets against 5h/24h budgets, halt on rate limits and budget exhaustion, and hand off the unfinished work to another agent.",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./core": "./core.mjs",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "core.mjs",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
+    "herdr",
+    "agent-fleet",
+    "orchestration",
+    "rate-limit",
+    "metering"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riverho/dsh-herdr-fleet.git",
+    "directory": "plugin"
+  },
+  "homepage": "https://github.com/riverho/dsh-herdr-fleet#readme",
+  "bugs": {
+    "url": "https://github.com/riverho/dsh-herdr-fleet/issues"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.2",
+    "@deepseek-ai/dsh-llm": "^0.1.5-rc.2",
+    "@deepseek-ai/dsh-tools": "^0.1.5-rc.2",
+    "@deepseek-ai/schemastery": "^3.18.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

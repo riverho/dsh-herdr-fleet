@@ -1,0 +1,31 @@
+# Dependencies
+# scripts/link-deps.mjs creates this as symlinks into the local dsh installation,
+# so it is machine-specific and must never be committed.
+node_modules/
+
+# Local reference checkouts
+# _ref/ holds a clone of the DeepSeek Harness source used while developing this
+# plugin. It is ~120 MB with its own .git and is only read, never published.
+_ref/
+
+# Runtime state
+# The ledger lives in <os home>/.dsh/herdr-fleet by default, but a custom
+# stateDir may point inside the tree.
+ledger.json
+*.ledger.json
+
+# Logs and coverage
+*.log
+npm-debug.log*
+pnpm-debug.log*
+coverage/
+.nyc_output/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/

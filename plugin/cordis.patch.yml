@@ -1,0 +1,55 @@
+# The bundle patch for dsh-herdr-fleet.
+#
+# Added to a profile's `dsh.profile.bundles`, this row mounts the plugin. A
+# patch replaces the targeted row's whole `config` rather than merging into it,
+# so a deployment that wants different limits restates the COMPLETE config in
+# its own profile `cordis.patch.yml`.
+#
+# The plugin is inert without Herdr: it discovers nothing, its watcher reports
+# the CLI as unreachable through `fleet_status`, and its tools stay callable and
+# honest about it. Loading it costs nothing until a Herdr server answers.
+- insert:
+    - id: herdr-fleet
+      name: 'dsh-herdr-fleet'
+      config:
+        # Per-agent working-hour budget inside the rolling window below. This is
+        # the "5 hour limit" the whole plugin exists to enforce.
+        budgetHours: 5
+        windowHours: 24
+
+        # Watcher cadence. One `herdr api snapshot` per tick.
+        tickSeconds: 10
+        # Read each working agent's output tail every N ticks, to look for
+        # provider throttling. Reading is the expensive part, so it is rarer
+        # than the poll.
+        readEveryTicks: 3
+        readLines: 60
+
+        # A rate limit must be seen on this many CONSECUTIVE scans of unchanged
+        # output before the agent is halted. One noisy scan is not evidence.
+        rlConfirmScans: 2
+        # Per-agent cooldown before another rate-limit halt may fire.
+        rlCooldownMinutes: 10
+
+        # Halt automatically at the budget ceiling and on a confirmed rate
+        # limit, capturing a handoff. Set false to observe and warn only.
+        autoHalt: true
+
+        # Tell the brain when an agent parks on an approval prompt, so a human
+        # can be pointed at the pane.
+        notifyOnBlocked: true
+
+        # Where the ledger lives. Empty resolves to `<os home>/.dsh/herdr-fleet`.
+        stateDir: ''
+
+        # 'pwsh' or 'bash' for quoting prompts. Empty auto-detects from the
+        # host platform.
+        shellFlavor: ''
+
+        # A parked resume whose moment passed while dsh was down is dropped
+        # rather than fired late, once it is older than this.
+        staleParkGraceMinutes: 30
+
+        # Deliver notices straight to the owning agent. Off keeps them queued
+        # for `fleet_status` only.
+        liveNotices: true

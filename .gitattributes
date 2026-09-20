@@ -1,0 +1,15 @@
+# Normalize every text file to LF in the repository, whatever the platform.
+# This plugin ships .js/.mjs sources and YAML patches; CRLF churn would be noise.
+* text=auto eol=lf
+
+# Binary assets are never normalized.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.zip binary
+*.gz binary
